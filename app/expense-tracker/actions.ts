@@ -12,7 +12,7 @@ type Expense = {
 
 // Fetch all expenses
 export async function getExpenses() {
-  const result = await sql<Expense[]>`SELECT * FROM expenses ORDER BY date DESC`
+  const result = sql `SELECT * FROM expenses ORDER BY date DESC`
   return result
 }
 

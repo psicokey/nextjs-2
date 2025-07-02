@@ -14,7 +14,7 @@ import { Heading, Text } from "@chakra-ui/react"
 
 export default function Home() {
   return (
-    <main className="">
+    <main>
       <header className="text-center my-4">
         <Image
           src="/assets/platzi-isotipo.webp"
