@@ -1,16 +1,25 @@
+"use client"
 
 import { Heading, Text } from "@chakra-ui/react"
 import { Bookmark } from "@/components/bookmark"
+import { useQuery } from "@tanstack/react-query";
+import { BookmarkType } from "./schema";
 
-import { orm } from "./db"
+export default function Bookmarks(){
 
-export default async function Bookmarks() {
-  const bookmarks = await orm.query.bookmarks.findMany({
-    limit: 10,
-    with: {
-      author: true,
-    },
+  const {data: bookmarks, status} = useQuery({
+    queryKey: ["bookmarks"],
+    queryFn: async () => {
+      return fetch ("/bookmarks/api")
+      .then ((response) => {
+        return response.json()
+      })
+      .then(({data}) => {
+        return data as BookmarkType[]
+      })
+    }
   })
+console.log(status)
 
   return (
     <main className="mt-12">
@@ -24,7 +33,7 @@ export default async function Bookmarks() {
       </header>
 
       <ul className="text-lg mt-10">
-        {bookmarks.map((bookmark) => (
+        {bookmarks?.map((bookmark) => (
           <li className="border-b-2 py-4 px-6 my-2" key={bookmark.id}>
             <Bookmark {...bookmark} />
             {/* <div className="my-1 text-gray-600 text-xs ml-7">
